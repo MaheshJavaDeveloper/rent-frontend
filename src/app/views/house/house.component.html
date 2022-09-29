@@ -1,72 +1,3 @@
-<!-- <c-row>
-    <c-col xs>
-        <c-card class="mb-4">
-            <c-card-header>Houses</c-card-header>
-            <c-card-body>
-                <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
-                    <thead cTableColor="light">
-                        <tr>
-                            <th class="text-center">
-                                <svg cIcon name="cilPeople"></svg>
-                            </th>
-                            <th>House Name</th>
-                            <th class="text-center">Advance Amount</th>
-                            <th>Rent Fixed</th>
-                            <th class="text-center">Meter Number</th>
-                            <th>Current Tenant</th>
-                            <th>Status</th>
-                            <th class="text-center">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let house of houseData; index as i">
-                            <td class="text-center">
-                                {{house.id}}
-                            </td>
-                            <td>
-                                <div>{{ house.name }}</div>
-                            </td>
-                            <td class="text-center">
-                                {{ house.advanceAmount }}
-                            </td>
-                            <td>
-                                {{ house.rentFixed }}
-                            </td>
-                            <td class="text-center">
-                                {{ house.meterNumber }}
-                            </td>
-                            <td>
-                                <div class="small text-medium-emphasis">{{ house.currentTenant.name }}
-                                    ({{house.currentTenant.phone}})</div>
-                            </td>
-                            <td>
-                                <p *ngIf="house.status == 'Active'">
-                                    <button cButton color="success" shape="rounded-pill">
-                                        <svg cIcon name="cilCheck"></svg>
-                                    </button>
-                                </p>
-                                <p *ngIf="house.status !== 'Active'">
-                                    <button cButton color="danger" shape="rounded-pill">
-                                        <svg cIcon name="cilLockLocked"></svg>
-                                    </button>
-                                </p>
-                            </td>
-                            <td class="text-center">
-                                <p> <button cButton color="warning" shape="rounded-pill" class="me-1">
-                                        <svg cIcon name="cilPencil"></svg>
-                                    </button>
-                                    <button cButton color="danger" shape="rounded-pill" class="me-1">
-                                        <svg cIcon name="cilTrash"></svg>
-                                    </button>
-                                </p>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </c-card-body>
-        </c-card>
-    </c-col>
-</c-row> -->
 <c-alert [(visible)]="visibleAlert" [dismissible]="true" color="success" fade *ngIf="visibleAlert">
     {{successAlertData}}.
 </c-alert>
@@ -92,10 +23,11 @@
                     Overall Reading: {{ house.overallMeterReading }}
                 </div>
 
-                <p> <button cButton color="light" shape="rounded-pill" class="me-1" (click)="createRent(house)" *ngIf="house.status == 'Active'">
+                <p> <button cButton color="light" shape="rounded-pill" class="me-1" (click)="createRent(house)"
+                        *ngIf="house.status == 'Active'">
                         <svg cIcon name="cil-plus"></svg>
-                    </button>                    
-                    <button cButton color="light" shape="rounded-pill" class="me-1">
+                    </button>
+                    <button cButton color="light" shape="rounded-pill" class="me-1" (click)="openRent(house.id)">
                         <svg cIcon name="cilChart"></svg>
                     </button>
                 </p>
@@ -207,24 +139,108 @@
                 <c-badge color="danger" position="top-start" shape="rounded-pill"><svg cIcon
                         name="cil-credit-card"></svg></c-badge>
             </button>
-            
+
             <button cButton color="transparent" shape="rounded-pill" class="me-1">
                 <svg cIcon name="cil-arrow-circle-right"></svg>
             </button>
 
             <button cButton color="danger" class="position-relative mx-2" size="sm">
                 Total : {{rentData.totalRent}}
-                <c-badge color="danger" position="top-start" shape="rounded-pill"><svg cIcon
-                        name="cil-user"></svg></c-badge>
+                <c-badge color="danger" position="top-start" shape="rounded-pill"><svg cIcon name="cil-user"></svg>
+                </c-badge>
             </button>
 
-            <hr/>
+            <hr />
             <div class="text-center">
-            <button cButton color="success" class="position-relative mx-2" (click)="saveRent()">                
-               <span class="white"> <svg cIcon name="cil-save"></svg> Save</span>
-            </button>
+                <button cButton color="success" class="position-relative mx-2" (click)="saveRent()">
+                    <span class="white"> <svg cIcon name="cil-save"></svg> Save</span>
+                </button>
             </div>
         </div>
-        
+
+    </c-modal-body>
+</c-modal>
+
+<c-modal id="rentModal" [visible]="rentVisible" alignment="center" (visibleChange)="rentalModalChange($event)"
+    scrollable size="xl">
+    <c-modal-header>
+        <h5 cModalTitle>Rent Details</h5>
+        <button (click)="toggleRentModal()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
+            <thead cTableColor="light">
+                <tr class="text-center">
+                    <th class="text-center">
+                        <svg cIcon name="cil-cash"></svg>
+                    </th>
+                    <th>Bill Date</th>
+                    <th class="text-center">Rent</th>
+                    <th>Current Meter</th>
+                    <th class="text-center">Consumed Units</th>
+                    <th>Electric</th>
+                    <th>Water</th>
+                    <th>Others</th>
+                    <th>Dues</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let rent of rentDataList; index as i" class="text-center">
+                    <td class="text-center">
+                        {{i+1}}
+                    </td>
+                    <td>
+                        <div>{{ moment(rent.billDate).format('LL') }}</div>
+                    </td>
+                    <td class="text-center">
+                        {{ rent.rentAmount }}
+                    </td>
+                    <td>
+                        {{ rent.currentMeterReading }}
+                    </td>
+                    <td class="text-center">
+                        {{ rent.consumedMeterReading }}
+                    </td>
+                    <td>
+                        {{ rent.electricCharges }}
+                    </td>
+                    <td>
+                        {{ rent.waterCharge }}
+                    </td>
+                    <td>
+                        {{ rent.otherCharges }}
+                    </td>
+                    <td>
+                        {{ rent.pendingPayment }}
+                    </td>
+                    <td>
+                        {{ rent.totalRent }}
+                    </td>
+                    <td> <span *ngIf="rent.rentStatus == 'PAID'"
+                            class="badge rounded-pill text-bg-success">{{rent.rentStatus}}</span>
+                        <span *ngIf="rent.rentStatus !== 'PAID'"
+                            class="badge rounded-pill text-bg-primary">{{rent.rentStatus}}</span>
+                    </td>
+                    <td class="text-center">
+                        <button cButton color="primary" shape="rounded-pill" class="me-1">
+                            <svg cIcon name="cib-whatsapp"></svg>
+                        </button>
+                        <button cButton color="danger" *ngIf="rent.rentStatus == 'PAID'" shape="rounded-pill" class="me-1" (click)="updatePaid(rent)">
+                            <svg cIcon name="cil-ban"></svg>
+                        </button>
+                        <button cButton color="success" *ngIf="rent.rentStatus !== 'PAID'" shape="rounded-pill" class="me-1" (click)="updatePaid(rent)">
+                            <svg cIcon name="cil-check"></svg>
+                        </button>
+                        <button cButton color="danger" shape="rounded-pill" class="me-1">
+                            <svg cIcon name="cilTrash"></svg>
+                        </button>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </c-modal-body>
 </c-modal>

@@ -30,7 +30,9 @@ export class HouseComponent implements OnInit, AfterContentInit {
   rentData = {} as Rent;
   selectedHouse: any;
   successAlertData: any;
-  contactForm:any;
+  contactForm: any;
+  rentDataList: any;
+  moment: any = moment;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -55,20 +57,29 @@ export class HouseComponent implements OnInit, AfterContentInit {
   }
 
   public visible = false;
+  public rentVisible = false;
   public visibleAlert = false;
+
+  handleLiveDemoChange(event: any) {
+    this.visible = event;
+  }
+
+  rentalModalChange(event: any) {
+    this.rentVisible = event;
+  }
 
   toggleLiveDemo() {
     this.visible = !this.visible;
   }
 
-  createRent(data: any) {    
-    this.selectedHouse = data;
-    this.rentData = {};
-    this.visible = true;    
+  toggleRentModal() {
+    this.rentVisible = !this.rentVisible;
   }
 
-  handleLiveDemoChange(event: any) {
-    this.visible = event;
+  createRent(data: any) {
+    this.selectedHouse = data;
+    this.rentData = {};
+    this.visible = true;
   }
 
   computeRent() {
@@ -102,7 +113,7 @@ export class HouseComponent implements OnInit, AfterContentInit {
     });
   }
 
-  resetForm(){
+  resetForm() {
     this.contactForm = this.formBuilder.group({
       billDate: [moment(new Date()).format(
         'YYYY-MM-DD'
@@ -113,6 +124,24 @@ export class HouseComponent implements OnInit, AfterContentInit {
       pricePerUnit: [15],
       dues: [0]
     });
+  }
+
+  openRent(id: Number) {
+    this.houseService.get_rent(id, this.httpOptions).subscribe(data => {
+      this.rentDataList = data;
+      this.rentVisible = true;
+    });
+  }
+
+  updatePaid(rentData: any) {
+    if (rentData.rentStatus == "PAID") {
+      rentData.rentStatus = "UNPAID"
+    } else {
+      rentData.rentStatus = "PAID"
+    }
+    this.houseService.update_rent(rentData, this.httpOptions).subscribe(data => {
+      console.log("Updated");
+    })
   }
 
 }

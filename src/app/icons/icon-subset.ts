@@ -92,7 +92,9 @@ import {
   cilLockUnlocked,
   cilBolt,
   cilCash,
-  cilArrowCircleRight
+  cilArrowCircleRight,
+  cibWhatsapp,
+  cilBan
 } from '@coreui/icons';
 
 export const iconSubset = {
@@ -189,7 +191,9 @@ export const iconSubset = {
   cilLockUnlocked ,
   cilBolt,
   cilCash,
-  cilArrowCircleRight
+  cilArrowCircleRight,
+  cibWhatsapp,
+  cilBan
 };
 
 export enum IconSubset {
