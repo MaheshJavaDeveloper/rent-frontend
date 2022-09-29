@@ -1,8 +1,10 @@
 import { AfterContentInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { HouseService } from '../../service/house.service';
+import { HouseService } from '../../service/house/house.service';
 import * as moment from 'moment-timezone';
 import { HttpHeaders } from '@angular/common/http';
+import { UserService } from 'src/app/service/user/user.service';
+import { Router } from '@angular/router';
 
 interface Rent {
   houseNumber?: string;
@@ -33,22 +35,22 @@ export class HouseComponent implements OnInit, AfterContentInit {
   contactForm: any;
   rentDataList: any;
   moment: any = moment;
+  currentUser: any;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
-  constructor(private houseService: HouseService, private changeDetectorRef: ChangeDetectorRef, private formBuilder: FormBuilder) { }
+  constructor(private houseService: HouseService, private changeDetectorRef: ChangeDetectorRef, private formBuilder: FormBuilder, private userService: UserService) { }
 
   date: any = new Date().toLocaleDateString;
 
   ngOnInit(): void {
     this.resetForm();
-    this.houseService.get_token().subscribe(data => {
-      let token: any = data;
-      this.httpOptions = { headers: new HttpHeaders({ 'Authorization': token.tokenType + ' ' + token.accessToken }) }
-      this.houseService.get_house(this.httpOptions).subscribe(data => {
-        this.houseData = data;
-      })
+    let token = this.userService.retrieve();
+    this.currentUser = JSON.parse(token);
+    this.httpOptions = { headers: new HttpHeaders({ 'Authorization': this.currentUser.tokenType + ' ' + this.currentUser.accessToken }) }
+    this.houseService.get_house(this.httpOptions).subscribe(data => {
+      this.houseData = data;
     });
   }
 

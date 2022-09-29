@@ -1,6 +1,7 @@
 <c-alert [(visible)]="visibleAlert" [dismissible]="true" color="success" fade *ngIf="visibleAlert">
     {{successAlertData}}.
 </c-alert>
+
 <c-row>
     <c-col sm="6" xl="3" *ngFor="let house of houseData; index as i">
         <c-widget-stat-a class="pb-4 mb-4" [color]="house.status == 'Active' ? 'success' : 'danger'"
