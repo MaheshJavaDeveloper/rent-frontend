@@ -1,5 +1,5 @@
 {
-  "name": "coreui-free-angular-admin-template",
+  "name": "rent-app",
   "version": "4.2.4",
   "config": {
     "coreui_library_short_version": "4.2",
@@ -7,10 +7,11 @@
   },
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "node server.js",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "heroku-postbuild": "ng build"    
   },
   "private": true,
   "dependencies": {
@@ -36,12 +37,13 @@
     "ngx-perfect-scrollbar": "^10.1.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.11.4"
-  },
-  "devDependencies": {
-    "@angular-devkit/build-angular": "^14.2.1",
+    "zone.js": "~0.11.4",
     "@angular/cli": "^14.2.1",
     "@angular/compiler-cli": "^14.2.0",
+    "typescript": "~4.7.2"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^14.2.1",    
     "@angular/localize": "^14.2.0",
     "@types/jasmine": "^4.3.0",
     "@types/node": "^16.11.56",
@@ -50,8 +52,7 @@
     "karma-chrome-launcher": "~3.1.1",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
-    "karma-jasmine-html-reporter": "~2.0.0",
-    "typescript": "~4.7.2"
+    "karma-jasmine-html-reporter": "~2.0.0"    
   },
   "engines": {
     "node": "^14.15.0 || >=16.10.0",
