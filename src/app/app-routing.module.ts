@@ -6,12 +6,13 @@ import { Page404Component } from './views/pages/page404/page404.component';
 import { Page500Component } from './views/pages/page500/page500.component';
 import { LoginComponent } from './views/pages/login/login.component';
 import { RegisterComponent } from './views/pages/register/register.component';
+import { AuthguardGuard } from './service/authguard/authguard.guard';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/rent/house',
-    pathMatch: 'full'
+    redirectTo: '/login',
+    pathMatch: 'full',
   },
   {
     path: '',
@@ -75,7 +76,8 @@ const routes: Routes = [
         loadChildren: () =>
           import('./views/house/house.module').then((m) => m.HouseModule)
       },
-    ]
+    ],
+    canActivate: [AuthguardGuard]
   },
   {
     path: '404',
@@ -105,7 +107,7 @@ const routes: Routes = [
       title: 'Register Page'
     }
   },
-  {path: '**', redirectTo: 'dashboard'}
+  { path: '**', redirectTo: 'login' }
 ];
 
 @NgModule({
