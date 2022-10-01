@@ -40,7 +40,7 @@ export class HouseComponent implements OnInit, AfterContentInit {
   tenants: any;
   availableTenants: any;
   houseCount: any;
-  //Start Chart;
+  //Charts
   chartData: any[] = [];
   options: any[] = [];
   optionsDefault = {
@@ -90,7 +90,6 @@ export class HouseComponent implements OnInit, AfterContentInit {
   setData(hosues: any) {
     let i = 0;
     hosues.forEach((hosue: any) => {
-      console.log(hosue);      
       let chartDataSet = hosue.rents.map((s: any) => Number(s.totalRent));
       let labelSet = hosue.rents.map((s: any) => moment(s.billDate).format("MMM YY"));
       let dataset = [{
@@ -107,37 +106,7 @@ export class HouseComponent implements OnInit, AfterContentInit {
       };
       i++;
     });
-    console.log(this.chartData);
   }
-
-  // setData(data: any) {    
-  //   // data.forEach( (item:any) => {
-  //   //   console.log(item);
-  //   //   let chartDataSet = item.rents.map((s:any)=>s.rentAmount);
-  //   //   console.log(chartDataSet);
-
-  //   //   this.datasets.forEach((item: any) => {
-  //   //     item.data = chartDataSet;
-  //   //   })
-  //   //   // this.data[idx] = {
-  //   //   //   labels: idx < 3 ? this.labels.slice(0, 7) : this.labels,
-  //   //   //   datasets: this.datasets[idx]
-  //   //   // };
-
-  //   //   this.chartData[0]={
-  //   //     labels: 0 < 3 ? this.labels.slice(0, 3) : this.labels,
-  //   //     datasets: this.datasets
-  //   //   };
-  //   //   console.log(this.chartData);
-  //   // });
-
-  //   this.data.push([{
-  //     labels: this.labels.slice(0, 7),
-  //     datasets: this.datasets[0]
-  //   }]);
-  //   console.log(this.data);
-  // }
-
 
   updateTenantForm = this.formBuilder.group({
     tenant: []
@@ -156,8 +125,7 @@ export class HouseComponent implements OnInit, AfterContentInit {
     this.currentUser = JSON.parse(token);
     this.httpOptions = { headers: new HttpHeaders({ 'Authorization': this.currentUser.tokenType + ' ' + this.currentUser.accessToken }) }
     this.houseService.get_house(this.httpOptions).subscribe(async data => {
-      this.houseData = data;
-      this.houseCount = this.houseData.length();
+      this.houseData = data;      
       this.setData(this.houseData);
     });
     this.getTenant();
@@ -239,7 +207,8 @@ export class HouseComponent implements OnInit, AfterContentInit {
       waterCharge: [0],
       otherCharge: [0],
       pricePerUnit: [0],
-      dues: [0]
+      dues: [0],
+      more: [false]
     });
   }
 
@@ -257,7 +226,7 @@ export class HouseComponent implements OnInit, AfterContentInit {
       rentData.rentStatus = "PAID"
     }
     this.houseService.update_rent(rentData, this.httpOptions).subscribe(data => {
-      console.log("Updated");
+      this.successAlertData = 'Payment Updated';
     })
   }
 

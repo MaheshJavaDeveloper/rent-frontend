@@ -7,16 +7,16 @@
         <c-widget-stat-a class="pb-4 mb-4" [color]="house.status == 'Occupied' ? 'primary' : 'warning'">
             <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
                 <svg cIcon class="text-high-emphasis-inverse" size="xl" name="cilHome"></svg>
-                 {{ house.name }}
+                {{ house.name }}
                 <!-- <span class="fs-6 fw-normal">
                     <span *ngIf="house.advanceAmount">({{ house.advanceAmount }})</span>                    
                 </span> -->
 
                 <div class="fs-6 fw-normal my-3">
-                   <c-badge color="success">Advance : {{ house.advanceAmount }}</c-badge>
-                   <c-badge color="danger">Rent : {{ house.rentFixed }}</c-badge>
+                    <c-badge color="success">Advance : {{ house.advanceAmount }}</c-badge>
+                    <c-badge color="danger">Rent : {{ house.rentFixed }}</c-badge>
                     <!-- Meter: {{ house.meterNumber }} <br /> -->
-                    <c-badge color="success">Meter Readings : {{ house.overallMeterReading }}</c-badge> 
+                    <c-badge color="success">Meter Readings : {{ house.overallMeterReading }}</c-badge>
                 </div>
 
                 <p> <button cButton color="light" shape="rounded-pill" class="me-1" (click)="createRent(house)"
@@ -57,7 +57,8 @@
                 </c-dropdown>
             </ng-template>
             <ng-template cTemplateId="widgetChartTemplate">
-                <c-chart [data]="chartData[house.id]" [options]="optionsDefault" class="mt-3 mx-3" height="70" type="line">
+                <c-chart [data]="chartData[house.id]" [options]="optionsDefault" class="mt-3 mx-3" height="70"
+                    type="line">
                 </c-chart>
             </ng-template>
         </c-widget-stat-a>
@@ -79,35 +80,39 @@
             </c-col>
             <c-col [md]="6">
                 <div class="mb-3">
-                    <label cLabel>Meter Readings</label>
+                    <label cLabel>Monthly Meter Readings</label>
                     <input cFormControl name="currentMeter" formControlName="currentMeter" type="number">
                 </div>
             </c-col>
-            <c-col [md]="6">
+            <c-col [md]="6" *ngIf="contactForm.value.more">
                 <div class="mb-3">
                     <label cLabel>Water Charges</label>
                     <input cFormControl name="waterCharge" formControlName="waterCharge" type="number">
                 </div>
             </c-col>
-            <c-col [md]="6">
+            <c-col [md]="6" *ngIf="contactForm.value.more">
                 <div class="mb-3">
                     <label cLabel>Other Charges</label>
                     <input cFormControl name="otherCharge" formControlName="otherCharge" type="number">
                 </div>
             </c-col>
-            <c-col [md]="6">
+            <c-col [md]="6" *ngIf="contactForm.value.more">
                 <div class="mb-3">
                     <label cLabel>Dues</label>
                     <input cFormControl formControlName="dues" type="number">
                 </div>
             </c-col>
-            <c-col [md]="6">
+            <c-col [md]="6" *ngIf="contactForm.value.more">
                 <div class="mb-3">
                     <label cLabel>Price Per Unit</label>
                     <input cFormControl readOnly formControlName="pricePerUnit" type="number">
                 </div>
             </c-col>
             <c-col [md]="12">
+                <c-form-check>
+                    <input cFormCheckInput id="checkTwo" formControlName="more" type="checkbox" />
+                    <label cFormCheckLabel for="checkTwo">More Feilds..</label>
+                </c-form-check>
                 <div class="text-center">
                     <input cButton color="primary" type="submit" (click)="computeRent()" value="Compute Rent"
                         class="me-4">
@@ -187,10 +192,10 @@
     <c-modal-body>
         <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
             <thead cTableColor="light">
-                <tr class="text-center ">                  
-                    <th> 
+                <tr class="text-center ">
+                    <th>
                         <span class="d-none d-md-block">Bill Date</span>
-                        <span class="d-xs-block d-sm-block d-md-none"><svg cIcon name="cil-calendar"></svg></span>                 
+                        <span class="d-xs-block d-sm-block d-md-none"><svg cIcon name="cil-calendar"></svg></span>
 
                     </th>
                     <!-- <th class="text-center">Rent</th>
@@ -206,7 +211,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let rent of rentDataList; index as i" class="text-center">                    
+                <tr *ngFor="let rent of rentDataList; index as i" class="text-center">
                     <td>
                         <div class="d-none d-md-block">{{ moment(rent.billDate).format('LL') }}</div>
                         <div class="d-xs-block d-sm-block d-md-none">{{ moment(rent.billDate).format('Do MMM') }}</div>
