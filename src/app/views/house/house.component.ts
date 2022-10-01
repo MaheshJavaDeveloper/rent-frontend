@@ -124,7 +124,7 @@ export class HouseComponent implements OnInit, AfterContentInit {
     let token = this.userService.retrieve();
     this.currentUser = JSON.parse(token);
     this.httpOptions = { headers: new HttpHeaders({ 'Authorization': this.currentUser.tokenType + ' ' + this.currentUser.accessToken }) }
-    this.houseService.get_house(this.httpOptions).subscribe(async data => {
+    this.houseService.get_house(this.currentUser.id,this.httpOptions).subscribe(async data => {
       this.houseData = data;      
       this.setData(this.houseData);
     });

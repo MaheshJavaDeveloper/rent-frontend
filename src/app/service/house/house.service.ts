@@ -19,8 +19,8 @@ export class HouseService {
   create_house(data: any, httpOptions: any) {
     return this.httpClient.post(`https://rent-backend-api.herokuapp.com/api/v1/house`, data, httpOptions);
   }
-  get_house(httpOptions: any) {
-    return this.httpClient.get(`https://rent-backend-api.herokuapp.com/api/v1/house`, httpOptions);
+  get_house(id:any,httpOptions: any) {
+    return this.httpClient.get(`https://rent-backend-api.herokuapp.com/api/v1/house/owner/` + id, httpOptions);
   }  
   update_house(data: any, httpOptions: any) {
     return this.httpClient.patch(`https://rent-backend-api.herokuapp.com/api/v1/house`, data, httpOptions);
