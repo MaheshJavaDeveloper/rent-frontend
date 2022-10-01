@@ -71,8 +71,8 @@
       </c-avatar>
       <strong class="ps-3">{{user.username}}</strong>
     </button>
-    <ul cDropdownMenu class="pt-0 pr-5 w-auto">
-      <li>
+    <ul cDropdownMenu class="pt-0 pr-4 w-auto">
+      <!-- <li>
         <h6 cDropdownHeader class="bg-light fw-semibold py-2">Account</h6>
       </li>
       <li>
@@ -110,7 +110,7 @@
             42
           </c-badge>
         </a>
-      </li>
+      </li> -->
       <li>
         <h6 cDropdownHeader class="bg-light fw-semibold py-2">Settings</h6>
       </li>
@@ -127,7 +127,7 @@
           Settings
         </a>
       </li>
-      <li>
+      <!-- <li>
         <a routerLink="./" cDropdownItem>
           <svg cIcon class="me-2" name="cilCreditCard"></svg>
           Payments
@@ -135,13 +135,13 @@
             42
           </c-badge>
         </a>
-      </li>
+      </li> -->
       <li>
         <a routerLink="./" cDropdownItem>
-          <svg cIcon class="me-2" name="cilFile"></svg>
-          Projects
+          <svg cIcon class="me-2" name="cilHome"></svg>
+          Houses
           <c-badge class="ms-2 float-end" color="primary">
-            42
+            {{houseCount}}
           </c-badge>
         </a>
       </li>
@@ -151,7 +151,7 @@
       <li>
         <a routerLink="./" cDropdownItem (click)="logout()">
           <svg cIcon class="me-2" name="cilLockLocked"></svg>
-          Lock Account
+          Logout
         </a>
       </li>
       <li></li>

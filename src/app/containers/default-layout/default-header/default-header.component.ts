@@ -17,6 +17,7 @@ export class DefaultHeaderComponent extends HeaderComponent implements OnInit {
   public newTasks = new Array(5)
   public newNotifications = new Array(5)
   user :any;
+  houseCount = 42;
 
   constructor(private classToggler: ClassToggleService,private userService:UserService) {
     super();

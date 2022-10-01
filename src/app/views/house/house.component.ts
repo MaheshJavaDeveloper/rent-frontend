@@ -39,6 +39,7 @@ export class HouseComponent implements OnInit, AfterContentInit {
   currentUser: any;
   tenants: any;
   availableTenants: any;
+  houseCount: any;
   //Start Chart;
   chartData: any[] = [];
   options: any[] = [];
@@ -156,6 +157,7 @@ export class HouseComponent implements OnInit, AfterContentInit {
     this.httpOptions = { headers: new HttpHeaders({ 'Authorization': this.currentUser.tokenType + ' ' + this.currentUser.accessToken }) }
     this.houseService.get_house(this.httpOptions).subscribe(async data => {
       this.houseData = data;
+      this.houseCount = this.houseData.length();
       this.setData(this.houseData);
     });
     this.getTenant();
