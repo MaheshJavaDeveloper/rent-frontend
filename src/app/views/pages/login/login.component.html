@@ -1,20 +1,20 @@
 <div class="bg-light min-vh-100 d-flex flex-row align-items-center">
   <c-container>
     <c-row class="justify-content-center">
-      <c-col md="8">
+      <c-col md="6">
         <c-card-group>
           <c-card class="p-4">
             <c-card-body>
               <form cForm [formGroup]="registerForm" (ngSubmit)="login()">
                 <h1>Login</h1>
-                <p class="text-medium-emphasis">Sign In to your account
-                <c-badge color="danger" *ngIf="errorMessage">
-                  {{errorMessage}}
-                </c-badge>
-                <c-badge color="success" *ngIf="sccuessMessage">
-                  {{sccuessMessage}}
-                </c-badge>
-              </p>
+                <p class="text-medium-emphasis">Sign In to your <svg cIcon name="cilHome"></svg>ccount
+                  <c-badge color="danger" *ngIf="errorMessage">
+                    {{errorMessage}}
+                  </c-badge>
+                  <c-badge color="success" *ngIf="sccuessMessage">
+                    {{sccuessMessage}}
+                  </c-badge>
+                </p>
                 <c-input-group class="mb-3">
                   <span cInputGroupText>
                     <svg cIcon name="cilUser"></svg>
@@ -25,43 +25,17 @@
                   <span cInputGroupText>
                     <svg cIcon name="cilLockLocked"></svg>
                   </span>
-                  <input
-                    autoComplete="current-password"
-                    cFormControl
-                    placeholder="Password"
-                    type="password"
-                    formControlName="password"
-                  />
-                </c-input-group>
-                <c-row>
-                  <c-col xs="6">
-                    <button cButton class="px-4" color="primary" type="submit">
-                      Login
-                    </button>
-                  </c-col>
-                  <c-col class="text-right" xs="6">
-                    <button cButton class="px-0" color="link">
-                      Forgot password?
-                    </button>
-                  </c-col>
-                </c-row>
+                  <input autoComplete="current-password" cFormControl placeholder="Password" type="password"
+                    formControlName="password" />
+                </c-input-group>                
+                <div class="d-grid gap-1 d-md-block text-center">
+                  <button cButton color="primary" class="me-md-2" type="submit">Login <svg cIcon name="cilArrowCircleRight"></svg></button>
+                  <button cButton color="primary" routerLink="/register" >Register <svg cIcon name="cilSave"></svg></button>
+                  <!-- <button cButton color="danger" variant="outline">Forget Password?</button> -->
+                </div>
               </form>
             </c-card-body>
-          </c-card>
-          <c-card [ngStyle]="{'width.%': 44}" class="text-white bg-primary py-5">
-            <c-card-body class="text-center">
-              <div>
-                <h2>Sign up</h2>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua.
-                </p>
-                <button [active]="true" cButton class="mt-3" color="white" routerLink="/register">
-                  Register Now!
-                </button>
-              </div>
-            </c-card-body>
-          </c-card>
+          </c-card>          
         </c-card-group>
       </c-col>
     </c-row>
