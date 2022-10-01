@@ -15,9 +15,27 @@ export const navItems: INavData[] = [
     name: 'House'
   },
   {
-    name: 'Rent',
+    name: 'Dashbaord',
     url: '/rent/house',
     iconComponent: { name: 'cil-home' },
+    badge: {
+      color: 'info',
+      text: 'NEW'
+    }
+  },
+  {
+    name: 'Create House',
+    url: '/rent/create-house',
+    iconComponent: { name: 'cil-plus' },
+    badge: {
+      color: 'info',
+      text: 'NEW'
+    }
+  },
+  {
+    name: 'Tenants',
+    url: '/rent/create-tenant',
+    iconComponent: { name: 'cil-user' },
     badge: {
       color: 'info',
       text: 'NEW'

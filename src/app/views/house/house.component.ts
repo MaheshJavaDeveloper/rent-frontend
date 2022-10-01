@@ -5,6 +5,7 @@ import * as moment from 'moment-timezone';
 import { HttpHeaders } from '@angular/common/http';
 import { UserService } from 'src/app/service/user/user.service';
 import { Router } from '@angular/router';
+import { getStyle } from '@coreui/utils/src';
 
 interface Rent {
   houseNumber?: string;
@@ -36,6 +37,110 @@ export class HouseComponent implements OnInit, AfterContentInit {
   rentDataList: any;
   moment: any = moment;
   currentUser: any;
+  tenants: any;
+  availableTenants: any;
+  //Start Chart;
+  chartData: any[] = [];
+  options: any[] = [];
+  optionsDefault = {
+    plugins: {
+      legend: {
+        display: false
+      }
+    },
+    maintainAspectRatio: false,
+    scales: {
+      x: {
+        grid: {
+          display: false,
+          drawBorder: false
+        },
+        ticks: {
+          display: false
+        }
+      },
+      y: {
+        display: false,
+        grid: {
+          display: false
+        },
+        ticks: {
+          display: false
+        }
+      }
+    },
+    elements: {
+      line: {
+        borderWidth: 1,
+        tension: 0.4
+      },
+      point: {
+        radius: 4,
+        hitRadius: 10,
+        hoverRadius: 4
+      }
+    }
+  };
+
+  ngAfterContentInit(): void {
+    this.changeDetectorRef.detectChanges();
+  }
+
+  setData(hosues: any) {
+    let i = 0;
+    hosues.forEach((hosue: any) => {
+      console.log(hosue);      
+      let chartDataSet = hosue.rents.map((s: any) => Number(s.totalRent));
+      let labelSet = hosue.rents.map((s: any) => moment(s.billDate).format("MMM YY"));
+      let dataset = [{
+        label:'TotalRent',
+        backgroundColor: 'transparent',
+        borderColor: 'rgba(255,255,255,.55)',
+        pointBackgroundColor: getStyle('--cui-primary'),
+        pointHoverBorderColor: getStyle('--cui-primary'),
+        data: chartDataSet
+      }];      
+      this.chartData[hosue.id] = {
+        labels: labelSet,
+        datasets: dataset
+      };
+      i++;
+    });
+    console.log(this.chartData);
+  }
+
+  // setData(data: any) {    
+  //   // data.forEach( (item:any) => {
+  //   //   console.log(item);
+  //   //   let chartDataSet = item.rents.map((s:any)=>s.rentAmount);
+  //   //   console.log(chartDataSet);
+
+  //   //   this.datasets.forEach((item: any) => {
+  //   //     item.data = chartDataSet;
+  //   //   })
+  //   //   // this.data[idx] = {
+  //   //   //   labels: idx < 3 ? this.labels.slice(0, 7) : this.labels,
+  //   //   //   datasets: this.datasets[idx]
+  //   //   // };
+
+  //   //   this.chartData[0]={
+  //   //     labels: 0 < 3 ? this.labels.slice(0, 3) : this.labels,
+  //   //     datasets: this.datasets
+  //   //   };
+  //   //   console.log(this.chartData);
+  //   // });
+
+  //   this.data.push([{
+  //     labels: this.labels.slice(0, 7),
+  //     datasets: this.datasets[0]
+  //   }]);
+  //   console.log(this.data);
+  // }
+
+
+  updateTenantForm = this.formBuilder.group({
+    tenant: []
+  });
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -49,18 +154,17 @@ export class HouseComponent implements OnInit, AfterContentInit {
     let token = this.userService.retrieve();
     this.currentUser = JSON.parse(token);
     this.httpOptions = { headers: new HttpHeaders({ 'Authorization': this.currentUser.tokenType + ' ' + this.currentUser.accessToken }) }
-    this.houseService.get_house(this.httpOptions).subscribe(data => {
+    this.houseService.get_house(this.httpOptions).subscribe(async data => {
       this.houseData = data;
+      this.setData(this.houseData);
     });
-  }
-
-  ngAfterContentInit(): void {
-    this.changeDetectorRef.detectChanges();
+    this.getTenant();
   }
 
   public visible = false;
   public rentVisible = false;
   public visibleAlert = false;
+  public tenantVisible = false;
 
   handleLiveDemoChange(event: any) {
     this.visible = event;
@@ -68,6 +172,10 @@ export class HouseComponent implements OnInit, AfterContentInit {
 
   rentalModalChange(event: any) {
     this.rentVisible = event;
+  }
+
+  tenantModalChange(event: any) {
+    this.tenantVisible = event;
   }
 
   toggleLiveDemo() {
@@ -78,9 +186,14 @@ export class HouseComponent implements OnInit, AfterContentInit {
     this.rentVisible = !this.rentVisible;
   }
 
+  toggleTenantModal() {
+    this.tenantVisible = !this.tenantVisible;
+  }
+
   createRent(data: any) {
     this.selectedHouse = data;
     this.rentData = {};
+    this.contactForm.controls['pricePerUnit'].setValue(this.selectedHouse.pricePerUnit);
     this.visible = true;
   }
 
@@ -89,7 +202,7 @@ export class HouseComponent implements OnInit, AfterContentInit {
     let currentMeterReading = Number(this.contactForm.value.currentMeter);
     let previousMeterReading = this.selectedHouse.overallMeterReading;
     let consumedMeterReading = currentMeterReading != 0 ? currentMeterReading - previousMeterReading : 0;
-    let electricCharges = consumedMeterReading * 15;
+    let electricCharges = consumedMeterReading * this.selectedHouse.pricePerUnit;
     let total = electricCharges + Number(this.contactForm.value.waterCharge) + Number(this.contactForm.value.otherCharge) + this.selectedHouse.rentFixed
 
     this.rentData.houseNumber = this.selectedHouse.id;
@@ -123,7 +236,7 @@ export class HouseComponent implements OnInit, AfterContentInit {
       currentMeter: [0],
       waterCharge: [0],
       otherCharge: [0],
-      pricePerUnit: [15],
+      pricePerUnit: [0],
       dues: [0]
     });
   }
@@ -146,5 +259,61 @@ export class HouseComponent implements OnInit, AfterContentInit {
     })
   }
 
+  getTenant() {
+    this.houseService.get_tenant(this.currentUser.id, this.httpOptions).subscribe({
+      next: c => {
+        this.tenants = c;
+        this.availableTenants = this.tenants.filter((obj: any) => {
+          return (obj.status === 'In-Active'||obj.status === 'New');
+        });
+      }
+    });
+  }
+
+  updateTenant() {
+    this.selectedHouse.tenant = this.tenants.find((obj: any) => {
+      return Number(obj.id) === Number(this.updateTenantForm.value.tenant);
+    });
+    this.selectedHouse.tenant.status = 'Active';
+    this.selectedHouse.status = 'Occupied';
+    this.houseService.update_house(this.selectedHouse, this.httpOptions).subscribe({
+      next: c => {
+        this.successAlertData = this.selectedHouse.name + ' linked with ' + this.selectedHouse.tenant.name + ' successfully';
+        this.tenantVisible = false;
+        this.visibleAlert = true;
+      }
+    });
+    this.houseService.update_tenant(this.selectedHouse.tenant, this.httpOptions).subscribe({
+      next: c => {
+        this.availableTenants = this.availableTenants.filter((obj: any) => obj.id !== this.selectedHouse.tenant.id);
+      }
+    });
+  }
+
+  removeTenant(data: any) {
+    data.tenant.status = 'In-Active';
+    this.availableTenants.push(data.tenant);
+    this.houseService.update_tenant(data.tenant, this.httpOptions).subscribe({
+      next: c => {
+        this.successAlertData = 'Tenant Updated';
+      }
+    });
+    data.status = 'Vaccant';
+    data.tenant = null;
+    this.houseService.update_house(data, this.httpOptions).subscribe({
+      next: c => {
+        this.successAlertData = 'Tenant unlinked from ' + data.name + ' successfully';
+        this.tenantVisible = false;
+        this.visibleAlert = true;
+      }
+    });
+  }
+
+  openUpdateTenant(data: any) {
+    this.selectedHouse = data;
+    this.tenantVisible = true;
+  }
+
 }
+
 

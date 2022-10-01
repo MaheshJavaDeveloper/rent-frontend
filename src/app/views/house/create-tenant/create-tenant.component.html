@@ -1,0 +1,97 @@
+<c-accordion>
+    <c-accordion-item #item0="cAccordionItem" [visible]="false">
+        <ng-template cTemplateId="accordionHeaderTemplate">
+            <button (click)="item0.toggleItem()" [collapsed]="!item0.visible" cAccordionButton>
+              <h4>Create Tenants <button cButton size="sm"  color="outline-primary" shape="rounded-pill" class="ms-2">
+                <svg cIcon name="cil-user"></svg>
+            </button></h4>
+            </button>           
+        </ng-template>
+        <ng-template cTemplateId="accordionBodyTemplate">
+            <c-container class="p-3">
+                <form cForm cRow [formGroup]="tenantForm">
+                    <c-col [md]="6">
+                        <div class="mb-3">
+                            <label cLabel>Name</label>
+                            <input cFormControl formControlName="name" type="text">
+                        </div>
+                    </c-col>
+                    <c-col [md]="6">
+                        <div class="mb-3">
+                            <label cLabel>Phone Number</label>
+                            <input cFormControl formControlName="phone" type="number">
+                        </div>
+                    </c-col>                    
+                    <c-col [md]="12">
+                        <div class="float-start">
+                            <input cButton color="success" (click)="saveTenant()" type="submit" value="Create">
+                        </div>
+                    </c-col>
+                </form>
+            </c-container>
+        </ng-template>
+    </c-accordion-item>
+</c-accordion>
+
+<c-card class="mt-4">
+    <c-card-header>
+        <c-row>
+            <c-col sm="5">
+                <h4 class="card-title mb-0" id="traffic">
+                    Tenants
+                </h4>
+                <div class="small text-medium-emphasis"></div>
+            </c-col>
+            <c-col class="d-none d-md-block" sm="7">
+                <button cButton class="float-end" color="primary">
+                    <svg cIcon name="cilPeople"></svg>
+                </button>
+            </c-col>
+        </c-row>
+    </c-card-header>
+    <c-card-body>
+        <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
+            <thead cTableColor="light">
+                <tr>
+                    <th class="text-center">
+                        <svg cIcon name="cil-user"></svg>
+                    </th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let rent of tenants; index as i">
+                    <td class="text-center">
+                        {{i+1}}
+                    </td>
+                    <td>
+                        {{ rent.name }}
+                    </td>
+                    <td>
+                        {{ rent.phone }}
+                    </td>
+                    <td>
+                        <button *ngIf="rent.status == 'Active'" cButton color="success" shape="rounded-pill" class="me-1">
+                            <svg cIcon name="cilLink"></svg> 
+                        </button>
+                        <button *ngIf="rent.status == 'In-Active'" cButton color="danger" shape="rounded-pill" class="me-1">
+                            <svg cIcon name="cilLinkBroken"></svg> 
+                        </button>
+                        <button *ngIf="rent.status == 'New'" cButton color="success" shape="rounded-pill" class="me-1">
+                            <svg cIcon name="cilCheck"></svg>
+                        </button>
+                    </td>
+                    <td>
+                        <button cButton color="outline-danger" shape="rounded-pill" class="me-1">
+                            <svg cIcon name="cilSettings"></svg>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </c-card-body>
+</c-card>
+

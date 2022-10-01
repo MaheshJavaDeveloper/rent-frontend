@@ -1,0 +1,66 @@
+
+<c-card class="mb-4">
+    <c-card-body>
+      <c-row>
+        <c-col sm="5">
+          <h4 class="card-title mb-0" id="traffic">
+            Create House 
+          </h4>
+          <c-badge color="primary" *ngIf="sccuessMessage">{{sccuessMessage}}</c-badge>
+          <div class="small text-medium-emphasis"></div>
+        </c-col>
+        <c-col class="d-none d-md-block" sm="7">
+          <button cButton class="float-end" color="primary">
+            <svg cIcon name="cilHome"></svg>
+          </button>         
+        </c-col>
+      </c-row>    
+    </c-card-body>
+    <c-card-footer>
+        <c-container class="my-3">
+            <form cForm cRow [formGroup]="houseForm">
+                <c-col [md]="6">
+                    <div class="mb-3">
+                        <label cLabel>Name</label>
+                        <input cFormControl formControlName="name" type="text">
+                    </div>
+                </c-col>
+                <c-col [md]="6">
+                    <div class="mb-3">
+                        <label cLabel>Meter Number</label>
+                        <input cFormControl formControlName="meterNumber" type="number">
+                    </div>
+                </c-col>
+                <c-col [md]="6">
+                    <div class="mb-3">
+                        <label cLabel>Overall Meter Readings</label>
+                        <input cFormControl formControlName="overallMeterReading" type="number">
+                    </div>
+                </c-col>
+                <c-col [md]="6">
+                    <div class="mb-3">
+                        <label cLabel>Advance Amount</label>
+                        <input cFormControl formControlName="advanceAmount" type="number">
+                    </div>
+                </c-col>
+                <c-col [md]="6">
+                    <div class="mb-3">
+                        <label cLabel>Monthly Rent</label>
+                        <input cFormControl formControlName="rentFixed" type="number">
+                    </div>
+                </c-col>
+                <c-col [md]="6">
+                    <div class="mb-3">
+                        <label cLabel>Price Per Unit</label>
+                        <input cFormControl formControlName="pricePerUnit" type="number">
+                    </div>
+                </c-col>
+                <c-col [md]="12">
+                    <div class="text-center">
+                        <input cButton color="primary" (click)="saveHouse()" type="submit" value="Create" class="me-3">        
+                    </div>
+                </c-col>
+            </form>
+        </c-container>        
+    </c-card-footer>
+  </c-card>

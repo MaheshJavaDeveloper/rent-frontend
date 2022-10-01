@@ -14,15 +14,19 @@ export class HouseService {
 
   constructor(private httpClient: HttpClient) { }
 
-  get_token() {
-    return this.httpClient.post(`https://rent-backend-api.herokuapp.com/api/auth/signin`, `{"username":"Mahsesh","password": "Iniyan@2020"}`, this.httpOptions);
-  }
-  get_sign(data: any) {
-    return this.httpClient.post(`https://rent-backend-api.herokuapp.com/api/auth/signup`, data, this.httpOptions);
+
+  //House
+  create_house(data: any, httpOptions: any) {
+    return this.httpClient.post(`https://rent-backend-api.herokuapp.com/api/v1/house`, data, httpOptions);
   }
   get_house(httpOptions: any) {
     return this.httpClient.get(`https://rent-backend-api.herokuapp.com/api/v1/house`, httpOptions);
+  }  
+  update_house(data: any, httpOptions: any) {
+    return this.httpClient.patch(`https://rent-backend-api.herokuapp.com/api/v1/house`, data, httpOptions);
   }
+
+  //Rent
   get_rent(id: Number, httpOptions: any) {
     return this.httpClient.get(`https://rent-backend-api.herokuapp.com/api/v1/rent/house/` + id, httpOptions);
   }
@@ -31,5 +35,16 @@ export class HouseService {
   }
   update_rent(data: any, httpOptions: any) {
     return this.httpClient.patch(`https://rent-backend-api.herokuapp.com/api/v1/rent`, data, httpOptions);
+  }
+
+  //Tenant
+  create_tenant(data: any, httpOptions: any) {
+    return this.httpClient.post(`https://rent-backend-api.herokuapp.com/api/v1/tenant`, data, httpOptions);
+  }
+  get_tenant(id: Number, httpOptions: any) {
+    return this.httpClient.get(`https://rent-backend-api.herokuapp.com/api/v1/tenant/owner/` + id, httpOptions);
+  }
+  update_tenant(data: any, httpOptions: any) {
+    return this.httpClient.patch(`https://rent-backend-api.herokuapp.com/api/v1/tenant`, data, httpOptions);
   }
 }

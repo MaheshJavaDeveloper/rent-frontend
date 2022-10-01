@@ -95,10 +95,17 @@ import {
   cilArrowCircleRight,
   cibWhatsapp,
   cilBan,
-  cilAccountLogout
+  cilAccountLogout,
+  cilLink,
+  cilXCircle,
+  cilX,
+  cilLinkBroken
 } from '@coreui/icons';
 
 export const iconSubset = {
+  cilX,
+  cilXCircle,
+  cilLinkBroken,
   cibCcAmex,
   cibCcApplePay,
   cibCcMastercard,
@@ -195,7 +202,8 @@ export const iconSubset = {
   cilArrowCircleRight,
   cibWhatsapp,
   cilBan,
-  cilAccountLogout
+  cilAccountLogout,
+  cilLink
 };
 
 export enum IconSubset {
