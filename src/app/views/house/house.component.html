@@ -110,14 +110,13 @@
             <c-col [md]="12">
                 <div class="text-center">
                     <input cButton color="primary" type="submit" (click)="computeRent()" value="Compute Rent"
-                        class="me-3">
-
+                        class="me-4">
                     <input (click)="toggleLiveDemo()" cButton color="light" value="Close">
                 </div>
             </c-col>
         </form>
         <hr />
-        <div *ngIf="rentData.totalRent" class="m-5">
+        <div *ngIf="rentData.totalRent" class="d-grid gap-1 d-md-block text-center">
 
             <button cButton color="primary" class="position-relative mx-2" size="sm">
                 Monthly Rent : {{rentData.rentAmount}}
@@ -172,6 +171,7 @@
                 <button cButton color="success" class="position-relative mx-2" (click)="saveRent()">
                     <span class="white"> <svg cIcon name="cil-save"></svg> Save</span>
                 </button>
+                <input (click)="toggleLiveDemo()" cButton color="light" value="Close">
             </div>
         </div>
 
@@ -187,11 +187,12 @@
     <c-modal-body>
         <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
             <thead cTableColor="light">
-                <tr class="text-center">
-                    <th class="text-center">
-                        <svg cIcon name="cil-cash"></svg>
+                <tr class="text-center ">                  
+                    <th> 
+                        <span class="d-none d-md-block">Bill Date</span>
+                        <span class="d-xs-block d-sm-block d-md-none"><svg cIcon name="cil-calendar"></svg></span>                 
+
                     </th>
-                    <th>Bill Date</th>
                     <!-- <th class="text-center">Rent</th>
                     <th>Current Meter</th>
                     <th class="text-center">Consumed Units</th>
@@ -205,12 +206,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let rent of rentDataList; index as i" class="text-center">
-                    <td class="text-center">
-                        {{i+1}}
-                    </td>
+                <tr *ngFor="let rent of rentDataList; index as i" class="text-center">                    
                     <td>
-                        <div>{{ moment(rent.billDate).format('LL') }}</div>
+                        <div class="d-none d-md-block">{{ moment(rent.billDate).format('LL') }}</div>
+                        <div class="d-xs-block d-sm-block d-md-none">{{ moment(rent.billDate).format('Do MMM') }}</div>
                     </td>
                     <!-- <td class="text-center">
                         {{ rent.rentAmount }}
@@ -253,9 +252,9 @@
                             class="me-1" (click)="updatePaid(rent)">
                             <svg cIcon name="cil-check"></svg>
                         </button>
-                        <button cButton color="danger" shape="rounded-pill" class="me-1">
+                        <!-- <button cButton color="danger" shape="rounded-pill" class="me-1">
                             <svg cIcon name="cilTrash"></svg>
-                        </button>
+                        </button> -->
                     </td>
                 </tr>
             </tbody>
