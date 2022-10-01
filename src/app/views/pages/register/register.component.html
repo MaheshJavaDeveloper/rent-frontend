@@ -6,8 +6,8 @@
         <c-card class="mx-4">
           <c-card-body class="p-4">
             <form cForm [formGroup]="registerForm" (ngSubmit)="register()">
-              <h1>Register</h1>
-              <p class="text-medium-emphasis">Create your account
+              <h1>Register</h1> 
+              <p class="text-medium-emphasis">Create your <svg cIcon name="cilHome"></svg>ccount.
                 <c-badge color="danger" *ngIf="validation">
                   Please fill all fields.
                 </c-badge>
@@ -46,9 +46,9 @@
                   placeholder="Repeat password" type="password" />
                 <c-form-feedback [valid]="true">Looks good!</c-form-feedback>
               </c-input-group>
-              <div class="text-center">
-                <button type="submit" cButton color="success">Create Account</button>              
-                <button cButton color="primary" class="mx-2" cNavLink routerLink="/login" >Login Now!</button>
+              <div class="d-grid gap-1 d-md-block text-center">
+                <button type="submit" cButton color="primary" class="me-md-4"> <svg cIcon name="cilSave"></svg> Create Account</button>              
+                <button cButton color="primary" cNavLink routerLink="/login" >Login Now <svg cIcon name="cilArrowCircleRight"></svg></button>
               </div>
             </form>
 

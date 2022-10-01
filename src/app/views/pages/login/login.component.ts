@@ -15,26 +15,32 @@ export class LoginComponent {
     password: ['', Validators.required]
   });
   sccuessMessage: any;
-  errorMessage: any; 
+  errorMessage: any;
+  loggedUser: string ='';
 
-  constructor(private formBuilder: FormBuilder,private userService: UserService,private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router) { }
 
   login() {
     console.log(this.registerForm.value);
 
     this.userService.login(this.registerForm.value).subscribe({
       next: c => {
-        let result: any = c; 
+        let result: any = c;
         console.log(result);
-        this.userService.store(result);     
+        this.userService.store(result);
         this.router.navigate(['/rent']);
       },
       error: error => {
         this.errorMessage = error.error.error;
       },
       complete: () => {
-        console.log('Request complete');
+        localStorage.setItem('loggedUser', this.loggedUser = this.registerForm.value.username ?? '');
+        console.log('Request complete for user ' + this.loggedUser);
       }
     });
+  }
+
+  ngOnInit() {
+    localStorage.setItem('loggedUser', this.loggedUser ?? null);
   }
 }

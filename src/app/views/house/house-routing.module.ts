@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HouseComponent } from './house.component';
 import { CreateHouseComponent } from './create-house/create-house.component';
 import { CreateTenantComponent } from './create-tenant/create-tenant.component';
+import { AuthguardGuard } from '../../service/authguard/authguard.guard';
 
 const routes: Routes = [
   {
@@ -10,12 +11,12 @@ const routes: Routes = [
     data: {
       title: 'House'
     },
-    children: [   
+    children: [
       {
         path: '',
         pathMatch: 'full',
         redirectTo: 'house'
-      },  
+      },
       {
         path: 'house',
         component: HouseComponent,
@@ -35,9 +36,10 @@ const routes: Routes = [
         component: CreateTenantComponent,
         data: {
           title: 'Create Tenant'
-        }
+        },
       }
-    ]
+    ],
+    canActivate: [AuthguardGuard]
   }
 ];
 

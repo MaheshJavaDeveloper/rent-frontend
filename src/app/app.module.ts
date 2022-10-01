@@ -4,6 +4,7 @@ import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import {AuthguardService} from './service/authguard/authguard.service';
 
 import {
   PERFECT_SCROLLBAR_CONFIG,
@@ -100,7 +101,8 @@ const APP_CONTAINERS = [
     },
     IconSetService,
     Title,
-    HttpClientModule
+    HttpClientModule,
+    AuthguardService
   ],
   bootstrap: [AppComponent],
 })
