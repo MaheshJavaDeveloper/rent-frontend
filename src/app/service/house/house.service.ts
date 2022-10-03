@@ -42,6 +42,9 @@ export class HouseService {
       responseType: 'blob' as 'json', headers: httpOptions.headers
     });
   }
+  send_reciept(id: Number, httpOptions: any) {
+    return this.httpClient.get(this.baseUrl + `rent/sendReceipt/` + id, httpOptions);
+  }
 
   //Tenant
   create_tenant(data: any, httpOptions: any) {

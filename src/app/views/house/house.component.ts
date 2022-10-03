@@ -254,6 +254,12 @@ export class HouseComponent implements OnInit, AfterContentInit {
     });
   }
 
+  sendRecipt(rent: any) {
+    this.houseService.send_reciept(rent.id, this.httpOptions).subscribe((data:any) => {
+      console.log(data);    
+    });
+  }
+
   updateTenant() {
     this.selectedHouse.tenant = this.tenants.find((obj: any) => {
       return Number(obj.id) === Number(this.updateTenantForm.value.tenant);

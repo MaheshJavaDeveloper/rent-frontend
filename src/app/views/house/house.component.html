@@ -10,7 +10,7 @@
         </c-card>
     </c-col> -->
     <c-col sm="6" xl="3" *ngFor="let house of houseData; index as i">
-        <c-widget-stat-a class="pb-4 mb-4" [color]="house.status == 'Occupied' ? 'primary' : 'warning'">
+        <c-widget-stat-a class="pb-4 mb-4" [color]="house.status == 'Occupied' ? 'primary' : 'danger'">
             <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
                 <svg cIcon class="text-high-emphasis-inverse" size="xl" name="cilHome"></svg>
                 {{ house.name }}
@@ -20,9 +20,11 @@
 
                 <div class="fs-6 fw-normal my-3">
                     <c-badge color="success">Advance : {{ house.advanceAmount }}</c-badge>
-                    <c-badge color="danger">Rent : {{ house.rentFixed }}</c-badge>
+                    <c-badge color="success">Rent : {{ house.rentFixed }}</c-badge>
                     <!-- Meter: {{ house.meterNumber }} <br /> -->
                     <c-badge color="success">Meter Readings : {{ house.overallMeterReading }}</c-badge>
+                    <c-badge color="success" *ngIf="house.tenant">Tenant : {{ house.tenant.name }}</c-badge>
+                    <c-badge color="success" *ngIf="!house.tenant">Tenant : -------</c-badge>
                 </div>
 
                 <p> <button cButton color="light" shape="rounded-pill" class="me-1" (click)="createRent(house)"
@@ -32,9 +34,9 @@
                     <button cButton color="light" shape="rounded-pill" class="me-1" (click)="openRent(house.id)">
                         <svg cIcon name="cilChart"></svg>
                     </button>
-                    <button cButton *ngIf="house.tenant" color="light" shape="rounded-pill" class="me-1">
+                    <!-- <button cButton *ngIf="house.tenant" color="light" shape="rounded-pill" class="me-1">
                         <svg cIcon name="cilUser"></svg>
-                    </button>
+                    </button> -->
                     <button cButton *ngIf="house.tenant" color="light" shape="rounded-pill" class="me-1"
                         (click)="removeTenant(house)">
                         <svg cIcon name="cilLinkBroken"></svg>
@@ -252,7 +254,7 @@
                             class="badge rounded-pill text-bg-primary">{{rent.rentStatus}}</span>
                     </td>
                     <td class="text-center">
-                        <button cButton color="primary" shape="rounded-pill" class="me-1">
+                        <button cButton color="primary" shape="rounded-pill" (click)="sendRecipt(rent)" class="me-1">
                             <svg cIcon name="cib-whatsapp"></svg>
                         </button>
                         <button cButton color="primary" shape="rounded-pill" (click)="getRecipt(rent)" class="me-1">
