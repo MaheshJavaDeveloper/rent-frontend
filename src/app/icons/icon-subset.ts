@@ -99,10 +99,12 @@ import {
   cilLink,
   cilXCircle,
   cilX,
-  cilLinkBroken
+  cilLinkBroken,
+  cilDataTransferDown
 } from '@coreui/icons';
 
 export const iconSubset = {
+  cilDataTransferDown,
   cilX,
   cilXCircle,
   cilLinkBroken,

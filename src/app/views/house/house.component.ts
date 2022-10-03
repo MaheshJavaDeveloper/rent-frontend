@@ -20,6 +20,7 @@ interface Rent {
   otherCharges?: Number;
   totalRent?: Number;
   rentStatus?: string;
+  house?: Object;
 }
 
 @Component({
@@ -93,13 +94,13 @@ export class HouseComponent implements OnInit, AfterContentInit {
       let chartDataSet = hosue.rents.map((s: any) => Number(s.totalRent));
       let labelSet = hosue.rents.map((s: any) => moment(s.billDate).format("MMM YY"));
       let dataset = [{
-        label:'TotalRent',
+        label: 'TotalRent',
         backgroundColor: 'transparent',
         borderColor: 'rgba(255,255,255,.55)',
         pointBackgroundColor: getStyle('--cui-primary'),
         pointHoverBorderColor: getStyle('--cui-primary'),
         data: chartDataSet
-      }];      
+      }];
       this.chartData[hosue.id] = {
         labels: labelSet,
         datasets: dataset
@@ -124,8 +125,8 @@ export class HouseComponent implements OnInit, AfterContentInit {
     let token = this.userService.retrieve();
     this.currentUser = JSON.parse(token);
     this.httpOptions = { headers: new HttpHeaders({ 'Authorization': this.currentUser.tokenType + ' ' + this.currentUser.accessToken }) }
-    this.houseService.get_house(this.currentUser.id,this.httpOptions).subscribe(async data => {
-      this.houseData = data;      
+    this.houseService.get_house(this.currentUser.id, this.httpOptions).subscribe(async data => {
+      this.houseData = data;
       this.setData(this.houseData);
     });
     this.getTenant();
@@ -235,9 +236,21 @@ export class HouseComponent implements OnInit, AfterContentInit {
       next: c => {
         this.tenants = c;
         this.availableTenants = this.tenants.filter((obj: any) => {
-          return (obj.status === 'In-Active'||obj.status === 'New');
+          return (obj.status === 'In-Active' || obj.status === 'New');
         });
       }
+    });
+  }
+
+  getRecipt(rent: any) {
+    this.houseService.get_reciept(rent.id, this.httpOptions).subscribe((data:any) => {
+      let blob = new Blob([data], {type: 'application/pdf'});    
+      var downloadURL = window.URL.createObjectURL(data);
+      var link = document.createElement('a');
+      link.href = downloadURL;
+      link.download = "Receipt_"+rent.invoiceNumber+".pdf";
+      link.click();
+    
     });
   }
 

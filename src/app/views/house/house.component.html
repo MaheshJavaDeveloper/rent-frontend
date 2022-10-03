@@ -3,6 +3,12 @@
 </c-alert>
 
 <c-row>
+    <!-- <c-col >
+        <c-card *ngIf="houseData">
+            <c-card-body>No Houses Found..! Please configure new hosue... <a routerLink="/rent/create-house">Create House</a>
+            </c-card-body>
+        </c-card>
+    </c-col> -->
     <c-col sm="6" xl="3" *ngFor="let house of houseData; index as i">
         <c-widget-stat-a class="pb-4 mb-4" [color]="house.status == 'Occupied' ? 'primary' : 'warning'">
             <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
@@ -248,6 +254,9 @@
                     <td class="text-center">
                         <button cButton color="primary" shape="rounded-pill" class="me-1">
                             <svg cIcon name="cib-whatsapp"></svg>
+                        </button>
+                        <button cButton color="primary" shape="rounded-pill" (click)="getRecipt(rent)" class="me-1">
+                            <svg cIcon name="cil-data-transfer-down"></svg>
                         </button>
                         <button cButton color="danger" *ngIf="rent.rentStatus == 'PAID'" shape="rounded-pill"
                             class="me-1" (click)="updatePaid(rent)">
