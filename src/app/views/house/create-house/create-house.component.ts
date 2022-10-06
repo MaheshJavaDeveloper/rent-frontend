@@ -1,6 +1,7 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { HouseService } from 'src/app/service/house/house.service';
 import { UserService } from 'src/app/service/user/user.service';
@@ -30,7 +31,7 @@ export class CreateHouseComponent implements OnInit {
   sccuessMessage:any;
   errorMessage:any;
 
-  constructor(private houseService: HouseService, private formBuilder: FormBuilder, private userService: UserService) { }
+  constructor(private router: Router,private houseService: HouseService, private formBuilder: FormBuilder, private userService: UserService) { }
 
   ngOnInit(): void {
     this.currentUser =JSON.parse(this.userService.retrieve());
@@ -45,6 +46,7 @@ export class CreateHouseComponent implements OnInit {
         let result: any = c;        
         this.sccuessMessage = "Hosue created successfully";
         this.houseForm.reset();
+        this.router.navigate(['/rent']);
       },
       error: error => {
         this.errorMessage = error.error.message;

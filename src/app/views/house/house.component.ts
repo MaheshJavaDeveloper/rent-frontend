@@ -20,7 +20,7 @@ interface Rent {
   otherCharges?: Number;
   totalRent?: Number;
   rentStatus?: string;
-  house?: Object;
+  houseOwnerId?: Object;
 }
 
 @Component({
@@ -187,6 +187,7 @@ export class HouseComponent implements OnInit, AfterContentInit {
     this.rentData.pendingPayment = Number(this.contactForm.value.dues);
     this.rentData.otherCharges = Number(this.contactForm.value.otherCharge);
     this.rentData.totalRent = total;
+    this.rentData.houseOwnerId = this.currentUser.id;
   }
 
   saveRent() {
