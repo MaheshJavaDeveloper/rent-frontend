@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 })
 export class UserService {
 
-  baseUrl = environment.baseUrl+'v1/';
+  baseUrl = environment.baseUrl+'auth/';
   
   private tokenKey: string = 'app_token';
 
