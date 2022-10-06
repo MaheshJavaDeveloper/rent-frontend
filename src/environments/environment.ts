@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'https://rent-backend-api.herokuapp.com/api/v1/'
+  baseUrl: 'https://rent-backend-api.herokuapp.com/api/'
 };
 
 /*
