@@ -24,6 +24,9 @@ export class HouseService {
   get_house(id: any, httpOptions: any) {
     return this.httpClient.get(this.baseUrl + `house/owner/` + id, httpOptions);
   }
+  get_house_counts(id: any, httpOptions: any) {
+    return this.httpClient.get(this.baseUrl + `house/count/owner/` + id, httpOptions);
+  }
   update_house(data: any, httpOptions: any) {
     return this.httpClient.patch(this.baseUrl + `house`, data, httpOptions);
   }
