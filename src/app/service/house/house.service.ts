@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 })
 export class HouseService {
 
-  baseUrl: string = 'v1/'+environment.baseUrl;
+  baseUrl = environment.baseUrl+'v1/';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
