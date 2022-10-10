@@ -7,6 +7,7 @@ import { Page500Component } from './views/pages/page500/page500.component';
 import { LoginComponent } from './views/pages/login/login.component';
 import { RegisterComponent } from './views/pages/register/register.component';
 import { AuthguardGuard } from './service/authguard/authguard.guard';
+import { ForgetPasswordComponent } from './views/pages/forget-password/forget-password.component';
 
 const routes: Routes = [
   {
@@ -60,6 +61,12 @@ const routes: Routes = [
     component: RegisterComponent,
     data: {
       title: 'Register Page'
+    }
+  },{
+    path: 'forgetPassword',
+    component: ForgetPasswordComponent,
+    data: {
+      title: 'Reset Password'
     }
   },
   { path: '**', redirectTo: 'login' }

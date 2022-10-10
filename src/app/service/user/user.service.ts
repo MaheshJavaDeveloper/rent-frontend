@@ -8,8 +8,9 @@ import { environment } from 'src/environments/environment';
 })
 export class UserService {
 
-  baseUrl = environment.baseUrl+'auth/';
-  
+
+  baseUrl = environment.baseUrl;
+
   private tokenKey: string = 'app_token';
 
   httpOptions = {
@@ -19,11 +20,23 @@ export class UserService {
   constructor(private httpClient: HttpClient, private router: Router) { }
 
   registerUser(data: any) {
-    return this.httpClient.post(this.baseUrl + `signup`, data, this.httpOptions);
+    return this.httpClient.post(this.baseUrl + `auth/signup`, data, this.httpOptions);
   }
 
   login(data: any) {
-    return this.httpClient.post(this.baseUrl + `signin`, data, this.httpOptions);
+    return this.httpClient.post(this.baseUrl + `auth/signin`, data, this.httpOptions);
+  }
+
+  sendOTP(data: any) {
+    return this.httpClient.post(this.baseUrl + `reset/sendOTP`, data, this.httpOptions);
+  }
+
+  submitOTP(data: any) {
+    return this.httpClient.post(this.baseUrl + `reset/submitOTP`, data, this.httpOptions);
+  }
+
+  resetPassword(data: any) {
+    return this.httpClient.post(this.baseUrl + `reset/resetPassword`, data, this.httpOptions);
   }
 
   store(content: Object) {

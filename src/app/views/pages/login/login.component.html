@@ -10,7 +10,9 @@
                 <p class="text-medium-emphasis">Sign In to your <svg cIcon name="cilHome"></svg>ccount
                   <c-badge color="danger" *ngIf="errorMessage">
                     {{errorMessage}}
+                    
                   </c-badge>
+                  
                   <c-badge color="success" *ngIf="sccuessMessage">
                     {{sccuessMessage}}
                   </c-badge>
@@ -30,8 +32,8 @@
                 </c-input-group>                
                 <div class="d-grid gap-1 d-md-block text-center">
                   <button cButton color="primary" class="me-md-2" type="submit">Login <svg cIcon name="cilArrowCircleRight"></svg></button>
-                  <button cButton color="primary" routerLink="/register" >Register <svg cIcon name="cilSave"></svg></button>
-                  <!-- <button cButton color="danger" variant="outline">Forget Password?</button> -->
+                  <button cButton color="primary" routerLink="/register" class="me-md-2">Register <svg cIcon name="cilSave"></svg></button>
+                  <button cButton color="danger" class="me-md-2" *ngIf="errorMessage" routerLink="/forgetPassword">Forget Password?</button>
                 </div>
               </form>
             </c-card-body>
