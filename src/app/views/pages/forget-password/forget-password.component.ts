@@ -24,6 +24,7 @@ export class ForgetPasswordComponent {
 
   constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router) { }
   sendOTP() {
+    this.clearMessage();
     this.userService.sendOTP(this.registerForm.value).subscribe({
       next: c => {
         this.openOTPForm = true;
@@ -39,6 +40,7 @@ export class ForgetPasswordComponent {
   }
 
   submitOTP() {
+    this.clearMessage();
     this.userService.submitOTP(this.registerForm.value).subscribe({
       next: c => {
         this.openResetForm = true;
@@ -54,6 +56,7 @@ export class ForgetPasswordComponent {
   }
 
   resetPassword() {
+    this.clearMessage();
     this.userService.resetPassword(this.registerForm.value).subscribe({
       next: c => {
         this.resetSuccess = true;
@@ -66,6 +69,11 @@ export class ForgetPasswordComponent {
         this.sccuessMessage = "Password Reset completed";
       }
     });
-   
+
+  }
+
+  clearMessage() {
+    this.errorMessage = null;
+    this.sccuessMessage = null;
   }
 }
