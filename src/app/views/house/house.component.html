@@ -28,21 +28,21 @@
                 </div>
 
                 <p> <button cButton color="light" shape="rounded-pill" class="me-1" (click)="createRent(house)"
-                        *ngIf="house.status == 'Occupied'">
+                        *ngIf="house.status == 'Occupied'" cTooltip="Add Rent">
                         <svg cIcon name="cil-plus"></svg>
                     </button>
-                    <button cButton color="light" shape="rounded-pill" class="me-1" (click)="openRent(house.id)">
+                    <button cButton color="light" shape="rounded-pill" class="me-1" (click)="openRent(house.id)" cTooltip="Manage">
                         <svg cIcon name="cilChart"></svg>
                     </button>
                     <!-- <button cButton *ngIf="house.tenant" color="light" shape="rounded-pill" class="me-1">
                         <svg cIcon name="cilUser"></svg>
                     </button> -->
                     <button cButton *ngIf="house.tenant" color="light" shape="rounded-pill" class="me-1"
-                        (click)="removeTenant(house)">
+                        (click)="removeTenant(house)" cTooltip="Remove Tenant">
                         <svg cIcon name="cilLinkBroken"></svg>
                     </button>
                     <button *ngIf="house.tenant==null" cButton color="light" shape="rounded-pill" class="me-1"
-                        (click)="openUpdateTenant(house)">
+                        (click)="openUpdateTenant(house)" cTooltip="Register New Tenant">
                         <svg cIcon name="cilLink"></svg>
                     </button>
                 </p>

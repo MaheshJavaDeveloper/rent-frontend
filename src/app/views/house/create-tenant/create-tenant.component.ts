@@ -16,6 +16,7 @@ export class CreateTenantComponent implements OnInit {
     name: [],
     status: ['New'],
     phone: [],
+    email: [],
     houseOwnerId: []
   });
   currentUser: any;
