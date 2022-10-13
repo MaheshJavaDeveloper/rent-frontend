@@ -100,7 +100,8 @@ import {
   cilXCircle,
   cilX,
   cilLinkBroken,
-  cilDataTransferDown
+  cilDataTransferDown,
+  cibGmail
 } from '@coreui/icons';
 
 export const iconSubset = {
@@ -119,6 +120,7 @@ export const iconSubset = {
   cibLinkedin,
   cibSkype,
   cibTwitter,
+  cibGmail,
   cifBr,
   cifEs,
   cifFr,

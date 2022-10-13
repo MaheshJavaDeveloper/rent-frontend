@@ -256,9 +256,11 @@ export class HouseComponent implements OnInit, AfterContentInit {
   }
 
   sendRecipt(rent: any) {
-    this.houseService.send_reciept(rent.id, this.httpOptions).subscribe((data:any) => {
-      console.log(data);    
-    });
+    this.houseService.send_reciept(rent.id, this.httpOptions).subscribe();
+  }
+
+  sendMailRecipt(rent: any) {
+    this.houseService.send_reciept_mail(rent.id, this.httpOptions).subscribe();
   }
 
   updateTenant() {

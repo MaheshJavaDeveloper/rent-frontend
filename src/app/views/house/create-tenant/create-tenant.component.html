@@ -64,6 +64,7 @@
                     </th>
                     <th>Name</th>
                     <th>Phone</th>
+                    <th>Email</th>
                     <th>Status</th>
                     <th>Actions</th>
                 </tr>
@@ -78,6 +79,9 @@
                     </td>
                     <td>
                         {{ rent.phone }}
+                    </td>
+                    <td>
+                        {{ rent.email }}
                     </td>
                     <td>
                         <button *ngIf="rent.status == 'Active'" cButton color="success" shape="rounded-pill" class="me-1">

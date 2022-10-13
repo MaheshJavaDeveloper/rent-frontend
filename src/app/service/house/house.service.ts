@@ -49,6 +49,9 @@ export class HouseService {
   send_reciept(id: Number, httpOptions: any) {
     return this.httpClient.get(this.baseUrl + `rent/sendReceipt/` + id, httpOptions);
   }
+  send_reciept_mail(id: Number, httpOptions: any) {
+    return this.httpClient.get(this.baseUrl + `rent/sendMailReceipt/` + id, httpOptions);
+  }
 
   //Tenant
   create_tenant(data: any, httpOptions: any) {

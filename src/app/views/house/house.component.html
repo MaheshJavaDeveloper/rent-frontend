@@ -337,17 +337,20 @@
                             class="badge rounded-pill text-bg-primary">{{rent.rentStatus}}</span>
                     </td>
                     <td class="text-center">
-                        <button cButton color="primary" shape="rounded-pill" (click)="sendRecipt(rent)" class="me-1">
+                        <button cTooltip="Send Bill - Whatsapp" cButton color="primary" shape="rounded-pill" (click)="sendRecipt(rent)" class="me-1">
                             <svg cIcon name="cib-whatsapp"></svg>
                         </button>
-                        <button cButton color="primary" shape="rounded-pill" (click)="getRecipt(rent)" class="me-1">
+                        <button cTooltip="Send Bill - Mail" cButton color="primary" shape="rounded-pill" (click)="sendMailRecipt(rent)" class="me-1">
+                            <svg cIcon name="cilEnvelopeClosed"></svg>
+                        </button>
+                        <button cTooltip="Receipt Download" cButton color="primary" shape="rounded-pill" (click)="getRecipt(rent)" class="me-1">
                             <svg cIcon name="cil-data-transfer-down"></svg>
                         </button>
-                        <button cButton color="danger" *ngIf="rent.rentStatus == 'PAID'" shape="rounded-pill"
+                        <button cTooltip="Mark Unpaid" cButton color="danger" *ngIf="rent.rentStatus == 'PAID'" shape="rounded-pill"
                             class="me-1" (click)="updatePaid(rent)">
                             <svg cIcon name="cil-ban"></svg>
                         </button>
-                        <button cButton color="success" *ngIf="rent.rentStatus !== 'PAID'" shape="rounded-pill"
+                        <button cTooltip="Mark Paid" cButton color="success" *ngIf="rent.rentStatus !== 'PAID'" shape="rounded-pill"
                             class="me-1" (click)="updatePaid(rent)">
                             <svg cIcon name="cil-check"></svg>
                         </button>
