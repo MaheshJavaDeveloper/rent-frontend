@@ -21,6 +21,7 @@ interface Rent {
   totalRent?: Number;
   rentStatus?: string;
   houseOwnerId?: Object;
+  dueDate?: string;
 }
 
 @Component({
@@ -175,9 +176,11 @@ export class HouseComponent implements OnInit, AfterContentInit {
     let consumedMeterReading = currentMeterReading != 0 ? currentMeterReading - previousMeterReading : 0;
     let electricCharges = consumedMeterReading * this.selectedHouse.pricePerUnit;
     let total = electricCharges + Number(this.contactForm.value.waterCharge) + Number(this.contactForm.value.otherCharge) + this.selectedHouse.rentFixed
-
+    
+    var dueDate = new Date().setDate(Number(moment(this.selectedHouse.dueDate).format('DD')));
     this.rentData.houseNumber = this.selectedHouse.id;
     this.rentData.billDate = this.contactForm.value.billDate!;
+    this.rentData.dueDate = moment(dueDate).format('YYYY-MM-DD');
     this.rentData.rentAmount = this.selectedHouse.rentFixed;
     this.rentData.currentMeterReading = currentMeterReading;
     this.rentData.previousMeterReading = previousMeterReading;
@@ -244,14 +247,14 @@ export class HouseComponent implements OnInit, AfterContentInit {
   }
 
   getRecipt(rent: any) {
-    this.houseService.get_reciept(rent.id, this.httpOptions).subscribe((data:any) => {
-      let blob = new Blob([data], {type: 'application/pdf'});    
+    this.houseService.get_reciept(rent.id, this.httpOptions).subscribe((data: any) => {
+      let blob = new Blob([data], { type: 'application/pdf' });
       var downloadURL = window.URL.createObjectURL(data);
       var link = document.createElement('a');
       link.href = downloadURL;
-      link.download = "Receipt_"+rent.invoiceNumber+".pdf";
+      link.download = "Receipt_" + rent.invoiceNumber + ".pdf";
       link.click();
-    
+
     });
   }
 
@@ -269,6 +272,7 @@ export class HouseComponent implements OnInit, AfterContentInit {
     });
     this.selectedHouse.tenant.status = 'Active';
     this.selectedHouse.status = 'Occupied';
+    this.selectedHouse.dueDate = moment(new Date()).format('YYYY-MM-DD');
     this.houseService.update_house(this.selectedHouse, this.httpOptions).subscribe({
       next: c => {
         this.successAlertData = this.selectedHouse.name + ' linked with ' + this.selectedHouse.tenant.name + ' successfully';
@@ -293,6 +297,7 @@ export class HouseComponent implements OnInit, AfterContentInit {
     });
     data.status = 'Vaccant';
     data.tenant = null;
+    data.dueDate = null;
     this.houseService.update_house(data, this.httpOptions).subscribe({
       next: c => {
         this.successAlertData = 'Tenant unlinked from ' + data.name + ' successfully';
