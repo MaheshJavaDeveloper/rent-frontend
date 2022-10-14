@@ -1,9 +1,10 @@
+
 <c-accordion>
     <c-accordion-item #item0="cAccordionItem" [visible]="false">
         <ng-template cTemplateId="accordionHeaderTemplate">
             <button (click)="item0.toggleItem()" [collapsed]="!item0.visible" cAccordionButton>
               <h4>Create Tenants <button cButton size="sm"  color="outline-primary" shape="rounded-pill" class="ms-2">
-                <svg cIcon name="cil-user"></svg>
+                <svg cIcon name="cil-user"></svg> <c-badge color="primary" class="ms-2" *ngIf="sccuessMessage">{{sccuessMessage}}</c-badge>
             </button></h4>
             </button>           
         </ng-template>
@@ -50,7 +51,7 @@
             </c-col>
             <c-col class="d-none d-md-block" sm="7">
                 <button cButton class="float-end" color="primary">
-                    <svg cIcon name="cilPeople"></svg>
+                    <svg cIcon name="cilPeople"></svg> <c-badge color="primary" class="ms-2" *ngIf="sccuessUpdateMessage">{{sccuessUpdateMessage}}</c-badge>
                 </button>
             </c-col>
         </c-row>
@@ -95,7 +96,7 @@
                         </button>
                     </td>
                     <td>
-                        <button cButton color="outline-danger" shape="rounded-pill" class="me-1">
+                        <button cButton color="outline-danger" (click)="updateTenant(rent)" shape="rounded-pill" class="me-1">
                             <svg cIcon name="cilSettings"></svg>
                         </button>
                     </td>
@@ -105,3 +106,45 @@
     </c-card-body>
 </c-card>
 
+<c-modal id="editTenant" [visible]="visible" alignment="center" (visibleChange)="handleEditTenantChange($event)"
+    scrollable size="xl">
+    <c-modal-header>
+        <h5 cModalTitle>Modify Tenant</h5>
+        <button (click)="toggleTenant()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        <form cForm cRow [formGroup]="tenantForm">            
+            <c-col [md]="6">
+                <div class="mb-3">
+                    <label cLabel>Name</label>
+                    <input cFormControl  formControlName="name" type="text">
+                </div>
+            </c-col>
+            <c-col [md]="6">
+                <div class="mb-3">
+                    <label cLabel>Phone</label>
+                    <input cFormControl formControlName="phone" type="number">
+                </div>
+            </c-col>
+            <c-col [md]="6">
+                <div class="mb-3">
+                    <label cLabel>Email</label>
+                    <input cFormControl formControlName="email" type="email">
+                </div>
+            </c-col>
+            <c-col [md]="6">
+                <div class="mb-3">
+                    <label cLabel>Status</label>
+                    <input cFormControl readOnly formControlName="status" type="text">
+                </div>
+            </c-col>
+            <c-col [md]="12">                
+                <div class="text-center">
+                    <input cButton color="primary" (click)="updateTenantSubmit()" type="submit" value="Update Tenant"
+                        class="me-4">
+                    <input (click)="toggleTenant()" cButton color="light" value="Close">
+                </div>
+            </c-col>
+        </form>
+    </c-modal-body>
+</c-modal>
