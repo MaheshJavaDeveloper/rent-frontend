@@ -1,4 +1,4 @@
-<c-alert [(visible)]="visibleAlert" [dismissible]="true" color="success" fade *ngIf="visibleAlert">
+<c-alert [(visible)]="visibleAlert" [dismissible]="true" color="success" *ngIf="visibleAlert">
     {{successAlertData}}.
 </c-alert>
 
@@ -45,6 +45,9 @@
                         (click)="openUpdateTenant(house)" cTooltip="Register New Tenant">
                         <svg cIcon name="cilLink"></svg>
                     </button>
+                    <button cButton color="light" shape="rounded-pill" class="me-1" (click)="updateHouse(house)" cTooltip="Edit Defaults">
+                        <svg cIcon name="cilSettings"></svg>
+                    </button>
                 </p>
             </ng-template>
             <ng-template cTemplateId="widgetActionTemplate">
@@ -58,10 +61,10 @@
                         </span>
                         <!-- <svg cIcon class="text-high-emphasis-inverse" size="xl" width="24" name="cilHome"></svg> -->
                     </button>
-                    <ul cDropdownMenu>
+                    <!-- <ul cDropdownMenu>
                         <li><a routerLink="./" cDropdownItem>Change Tenant</a></li>
                         <li><a routerLink="./" cDropdownItem>Disable</a></li>
-                    </ul>
+                    </ul> -->
                 </c-dropdown>
             </ng-template>
             <ng-template cTemplateId="widgetChartTemplate">
@@ -390,6 +393,68 @@
                     <input cButton color="primary" type="submit" (click)="updateTenant()" value="Configure"
                         class="me-3">
                     <input (click)="toggleTenantModal()" cButton color="light" value="Close">
+                </div>
+            </c-col>
+        </form>
+    </c-modal-body>
+</c-modal>
+
+
+<c-modal id="houseEditModal" [visible]="houseEditVisible" alignment="center" (visibleChange)="houseEditModalChange($event)"
+    scrollable size="xl">
+    <c-modal-header>
+        <h5 cModalTitle> <button cButton size="sm" color="primary" shape="rounded-pill" class="me-2">
+                <svg cIcon name="cil-settings"></svg>
+            </button> House Settings</h5>
+        <button (click)="togglehouseEditChange()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        <form cForm cRow [formGroup]="houseForm">
+            <c-col [md]="6">
+                <div class="mb-3">
+                    <label cLabel>Name</label>
+                    <input cFormControl formControlName="name" type="text">
+                </div>
+            </c-col>
+            <c-col [md]="6">
+                <div class="mb-3">
+                    <label cLabel>Meter Number</label>
+                    <input cFormControl readOnly formControlName="meterNumber" type="number">
+                </div>
+            </c-col>
+            <c-col [md]="6">
+                <div class="mb-3">
+                    <label cLabel>Overall Meter Readings</label>
+                    <input cFormControl formControlName="overallMeterReading" type="number">
+                </div>
+            </c-col>
+            <c-col [md]="6">
+                <div class="mb-3">
+                    <label cLabel>Advance Amount</label>
+                    <input cFormControl formControlName="advanceAmount" type="number">
+                </div>
+            </c-col>
+            <c-col [md]="6">
+                <div class="mb-3">
+                    <label cLabel>Monthly Rent</label>
+                    <input cFormControl formControlName="rentFixed" type="number">
+                </div>
+            </c-col>
+            <c-col [md]="6">
+                <div class="mb-3">
+                    <label cLabel>Price Per Unit</label>
+                    <input cFormControl formControlName="pricePerUnit" type="number">
+                </div>
+            </c-col>
+            <!-- <c-col [md]="6">
+                <div class="mb-3">
+                    <label cLabel>Due Date</label>
+                    <input cFormControl formControlName="dueDate" type="date">
+                </div>
+            </c-col> -->
+            <c-col [md]="12">
+                <div class="text-center">
+                    <input cButton color="primary" (click)="saveHouse()" type="submit" value="Update" class="me-3">        
                 </div>
             </c-col>
         </form>

@@ -85,6 +85,42 @@ export class HouseComponent implements OnInit, AfterContentInit {
     }
   };
 
+  houseForm = this.formBuilder.group({
+    id: [],
+    name: [],
+    meterNumber: [],
+    overallMeterReading: [],
+    status: [],
+    advanceAmount: [],
+    rentFixed: [],
+    houseOwnerId: [],
+    pricePerUnit: [],
+    dueDate: []
+  });
+
+  updateHouse(data: any) {
+    this.houseForm.patchValue(data);
+    this.selectedHouse = data;
+    this.houseEditVisible = true;
+  }
+  saveHouse() {
+
+    this.selectedHouse.name = this.houseForm.value.name;
+    this.selectedHouse.overallMeterReading = this.houseForm.value.overallMeterReading;
+    this.selectedHouse.advanceAmount = this.houseForm.value.advanceAmount;
+    this.selectedHouse.rentFixed = this.houseForm.value.rentFixed;
+    this.selectedHouse.pricePerUnit = this.houseForm.value.pricePerUnit;
+
+    this.houseService.update_house(this.selectedHouse, this.httpOptions).subscribe({
+      next: c => {
+        this.successAlertData = this.houseForm.value.name + ' updated successfully';
+        this.houseEditVisible = false;
+        this.visibleAlert = true;
+        this.fetchHouse();
+      }
+    });
+  }
+
   ngAfterContentInit(): void {
     this.changeDetectorRef.detectChanges();
   }
@@ -126,17 +162,23 @@ export class HouseComponent implements OnInit, AfterContentInit {
     let token = this.userService.retrieve();
     this.currentUser = JSON.parse(token);
     this.httpOptions = { headers: new HttpHeaders({ 'Authorization': this.currentUser.tokenType + ' ' + this.currentUser.accessToken }) }
+    this.fetchHouse();
+    this.getTenant();
+  }
+
+
+  fetchHouse() {
     this.houseService.get_house(this.currentUser.id, this.httpOptions).subscribe(async data => {
       this.houseData = data;
       this.setData(this.houseData);
     });
-    this.getTenant();
   }
 
   public visible = false;
   public rentVisible = false;
   public visibleAlert = false;
   public tenantVisible = false;
+  public houseEditVisible = false;
 
   handleLiveDemoChange(event: any) {
     this.visible = event;
@@ -144,6 +186,14 @@ export class HouseComponent implements OnInit, AfterContentInit {
 
   rentalModalChange(event: any) {
     this.rentVisible = event;
+  }
+
+  houseEditModalChange(event: any) {
+    this.houseEditVisible = event;
+  }
+
+  togglehouseEditChange() {
+    this.houseEditVisible = !this.houseEditVisible;
   }
 
   tenantModalChange(event: any) {
@@ -176,7 +226,7 @@ export class HouseComponent implements OnInit, AfterContentInit {
     let consumedMeterReading = currentMeterReading != 0 ? currentMeterReading - previousMeterReading : 0;
     let electricCharges = consumedMeterReading * this.selectedHouse.pricePerUnit;
     let total = electricCharges + Number(this.contactForm.value.waterCharge) + Number(this.contactForm.value.otherCharge) + this.selectedHouse.rentFixed
-    
+
     var dueDate = new Date().setDate(Number(moment(this.selectedHouse.dueDate).format('DD')));
     this.rentData.houseNumber = this.selectedHouse.id;
     this.rentData.billDate = this.contactForm.value.billDate!;
@@ -202,6 +252,7 @@ export class HouseComponent implements OnInit, AfterContentInit {
       this.resetForm();
     });
   }
+
 
   resetForm() {
     this.contactForm = this.formBuilder.group({
