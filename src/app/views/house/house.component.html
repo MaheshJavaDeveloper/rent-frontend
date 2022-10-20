@@ -2,13 +2,22 @@
     {{successAlertData}}.
 </c-alert>
 
+
+<div class="bg-light d-flex flex-row align-items-center" *ngIf="housePresent">
+    <c-container>
+      <c-row class="justify-content-center">
+        <c-col md="4" class="mt-5">
+          <div class="clearfix">
+            <p class="text-medium-emphasis float-start mt-5">
+                <img width=100% height=100% src="./assets/img/extras/no-record.png" />
+            </p>
+          </div>          
+        </c-col>
+      </c-row>
+    </c-container>
+  </div>
+
 <c-row>
-    <!-- <c-col >
-        <c-card *ngIf="houseData">
-            <c-card-body>No Houses Found..! Please configure new hosue... <a routerLink="/rent/create-house">Create House</a>
-            </c-card-body>
-        </c-card>
-    </c-col> -->
     <c-col sm="6" xl="3" *ngFor="let house of houseData; index as i">
         <c-widget-stat-a class="pb-4 mb-4" [color]="house.status == 'Occupied' ? 'primary' : 'danger'">
             <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
@@ -31,7 +40,8 @@
                         *ngIf="house.status == 'Occupied'" cTooltip="Add Rent">
                         <svg cIcon name="cil-plus"></svg>
                     </button>
-                    <button cButton color="light" shape="rounded-pill" class="me-1" (click)="openRent(house.id)" cTooltip="Manage">
+                    <button cButton color="light" shape="rounded-pill" class="me-1" (click)="openRent(house.id)"
+                        cTooltip="Manage">
                         <svg cIcon name="cilChart"></svg>
                     </button>
                     <!-- <button cButton *ngIf="house.tenant" color="light" shape="rounded-pill" class="me-1">
@@ -45,7 +55,8 @@
                         (click)="openUpdateTenant(house)" cTooltip="Register New Tenant">
                         <svg cIcon name="cilLink"></svg>
                     </button>
-                    <button cButton color="light" shape="rounded-pill" class="me-1" (click)="updateHouse(house)" cTooltip="Edit Defaults">
+                    <button cButton color="light" shape="rounded-pill" class="me-1" (click)="updateHouse(house)"
+                        cTooltip="Edit Defaults">
                         <svg cIcon name="cilSettings"></svg>
                     </button>
                 </p>
@@ -340,21 +351,24 @@
                             class="badge rounded-pill text-bg-primary">{{rent.rentStatus}}</span>
                     </td>
                     <td class="text-center">
-                        <button cTooltip="Send Bill - Whatsapp" cButton color="primary" shape="rounded-pill" (click)="sendRecipt(rent)" class="me-1">
+                        <button cTooltip="Send Bill - Whatsapp" cButton color="primary" shape="rounded-pill"
+                            (click)="sendRecipt(rent)" class="me-1">
                             <svg cIcon name="cib-whatsapp"></svg>
                         </button>
-                        <button cTooltip="Send Bill - Mail" cButton color="primary" shape="rounded-pill" (click)="sendMailRecipt(rent)" class="me-1">
+                        <button cTooltip="Send Bill - Mail" cButton color="primary" shape="rounded-pill"
+                            (click)="sendMailRecipt(rent)" class="me-1">
                             <svg cIcon name="cilEnvelopeClosed"></svg>
                         </button>
-                        <button cTooltip="Receipt Download" cButton color="primary" shape="rounded-pill" (click)="getRecipt(rent)" class="me-1">
+                        <button cTooltip="Receipt Download" cButton color="primary" shape="rounded-pill"
+                            (click)="getRecipt(rent)" class="me-1">
                             <svg cIcon name="cil-data-transfer-down"></svg>
                         </button>
-                        <button cTooltip="Mark Unpaid" cButton color="danger" *ngIf="rent.rentStatus == 'PAID'" shape="rounded-pill"
-                            class="me-1" (click)="updatePaid(rent)">
+                        <button cTooltip="Mark Unpaid" cButton color="danger" *ngIf="rent.rentStatus == 'PAID'"
+                            shape="rounded-pill" class="me-1" (click)="updatePaid(rent)">
                             <svg cIcon name="cil-ban"></svg>
                         </button>
-                        <button cTooltip="Mark Paid" cButton color="success" *ngIf="rent.rentStatus !== 'PAID'" shape="rounded-pill"
-                            class="me-1" (click)="updatePaid(rent)">
+                        <button cTooltip="Mark Paid" cButton color="success" *ngIf="rent.rentStatus !== 'PAID'"
+                            shape="rounded-pill" class="me-1" (click)="updatePaid(rent)">
                             <svg cIcon name="cil-check"></svg>
                         </button>
                         <!-- <button cButton color="danger" shape="rounded-pill" class="me-1">
@@ -400,8 +414,8 @@
 </c-modal>
 
 
-<c-modal id="houseEditModal" [visible]="houseEditVisible" alignment="center" (visibleChange)="houseEditModalChange($event)"
-    scrollable size="xl">
+<c-modal id="houseEditModal" [visible]="houseEditVisible" alignment="center"
+    (visibleChange)="houseEditModalChange($event)" scrollable size="xl">
     <c-modal-header>
         <h5 cModalTitle> <button cButton size="sm" color="primary" shape="rounded-pill" class="me-2">
                 <svg cIcon name="cil-settings"></svg>
@@ -454,7 +468,7 @@
             </c-col> -->
             <c-col [md]="12">
                 <div class="text-center">
-                    <input cButton color="primary" (click)="saveHouse()" type="submit" value="Update" class="me-3">        
+                    <input cButton color="primary" (click)="saveHouse()" type="submit" value="Update" class="me-3">
                 </div>
             </c-col>
         </form>

@@ -171,6 +171,12 @@ export class HouseComponent implements OnInit, AfterContentInit {
     this.houseService.get_house(this.currentUser.id, this.httpOptions).subscribe(async data => {
       this.houseData = data;
       this.setData(this.houseData);
+      if (Array.isArray(data) && data.length) {
+          this.housePresent= false
+      } else {
+        this.housePresent= true
+      }
+
     });
   }
 
@@ -179,6 +185,8 @@ export class HouseComponent implements OnInit, AfterContentInit {
   public visibleAlert = false;
   public tenantVisible = false;
   public houseEditVisible = false;
+
+  public housePresent = false;
 
   handleLiveDemoChange(event: any) {
     this.visible = event;
