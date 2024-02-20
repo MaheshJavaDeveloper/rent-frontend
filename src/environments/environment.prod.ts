@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl: 'https://rent-backend-prod-api.herokuapp.com/api/'
+  baseUrl: 'https://rent-api-y1s3.onrender.com/api/'
 };
